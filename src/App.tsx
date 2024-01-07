@@ -72,24 +72,24 @@ type PropsCard = {
   damage: number;
 };
 
-// function HeartGrid({ hearts }: { hearts: number }) {
-//   return (
-//     <div className="grid grid-cols-5 gap-1">
-//       {Array.from({ length: hearts }).map((_, i) => (
-//         <div
-//           key={i}
-//           className="w-8 h-8 rounded-full bg-red-600 border-4 border-red-600"
-//         ></div>
-//       ))}
-//       {Array.from({ length: 20 - hearts }).map((_, i) => (
-//         <div
-//           key={i}
-//           className="w-8 h-8 rounded-full bg-gray-600 border-4 border-red-600"
-//         ></div>
-//       ))}
-//     </div>
-//   );
-// }
+function HeartGrid({ hearts }: { hearts: number }) {
+  return (
+    <div className="grid grid-cols-10 gap-1 mt-2">
+      {Array.from({ length: hearts }).map((_, i) => (
+        <div key={i} className=" text-red-500">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            className="w-6 h-6"
+          >
+            <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+          </svg>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function Card(props: PropsCard) {
   const [state, setState] = useState<"idle" | "attacking">("idle");
@@ -125,16 +125,15 @@ function Card(props: PropsCard) {
     </div>
   );
 }
-
 function PlayBtn() {
   function handleClick() {
     console.log("Play!");
   }
-  // add opacity again to make play work
+
   return (
     <button
       onClick={handleClick}
-      className="bg-white opacity-0 text-lg z-20 text-red-500 h-fit px-4 py-2 font-bold uppercase rounded-md shadow-md hover:text-white hover:bg-red-500"
+      className="text-lg  h-fit px-4 py-2 font-bold uppercase rounded-md shadow-md text-white bg-red-500"
     >
       Play
     </button>
@@ -142,30 +141,40 @@ function PlayBtn() {
 }
 
 function App() {
-  const [marioStats] = useState({ damage: 50, hearts: 20 });
+  const [marioStats] = useState({ damage: 50, hearts: 50 });
   const [bowserStats] = useState({ damage: 100, hearts: 100 });
 
   return (
     // main container
-    <div className=" text-white p-4 flex justify-center w-auto">
-      <div className="flex flex-row gap-10 items-center">
-        <Card
-          title="Super Mario"
-          img={mario}
-          offsetRight={-50}
-          imgWidth={200}
-          animateOffset={100}
-          damage={marioStats.damage}
-        />
-        <PlayBtn />
-        <Card
-          title="Bowser"
-          img={bowser}
-          offsetLeft={-50}
-          imgWidth={300}
-          animateOffset={-100}
-          damage={bowserStats.damage}
-        />
+    <div className=" text-white p-4 flex justify-center">
+      <div className="flex flex-row gap-10">
+        <div className="flex flex-col items-center">
+          <Card
+            title="Super Mario"
+            img={mario}
+            offsetRight={-50}
+            imgWidth={200}
+            animateOffset={100}
+            damage={marioStats.damage}
+          />
+          <HeartGrid hearts={marioStats.hearts} />
+        </div>
+
+        <div className="mt-24">
+          <PlayBtn />
+        </div>
+
+        <div className="flex flex-col items-center">
+          <Card
+            title="Bowser"
+            img={bowser}
+            offsetLeft={-50}
+            imgWidth={300}
+            animateOffset={-100}
+            damage={bowserStats.damage}
+          />
+          <HeartGrid hearts={bowserStats.hearts} />
+        </div>
       </div>
     </div>
   );
