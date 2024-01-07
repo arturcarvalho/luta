@@ -72,24 +72,24 @@ type CardProps = {
   damage: number;
 };
 
-function HeartGrid({ hearts }: { hearts: number }) {
-  return (
-    <div className="grid grid-cols-5 gap-1">
-      {Array.from({ length: hearts }).map((_, i) => (
-        <div
-          key={i}
-          className="w-8 h-8 rounded-full bg-red-600 border-4 border-red-600"
-        ></div>
-      ))}
-      {Array.from({ length: 20 - hearts }).map((_, i) => (
-        <div
-          key={i}
-          className="w-8 h-8 rounded-full bg-gray-600 border-4 border-red-600"
-        ></div>
-      ))}
-    </div>
-  );
-}
+// function HeartGrid({ hearts }: { hearts: number }) {
+//   return (
+//     <div className="grid grid-cols-5 gap-1">
+//       {Array.from({ length: hearts }).map((_, i) => (
+//         <div
+//           key={i}
+//           className="w-8 h-8 rounded-full bg-red-600 border-4 border-red-600"
+//         ></div>
+//       ))}
+//       {Array.from({ length: 20 - hearts }).map((_, i) => (
+//         <div
+//           key={i}
+//           className="w-8 h-8 rounded-full bg-gray-600 border-4 border-red-600"
+//         ></div>
+//       ))}
+//     </div>
+//   );
+// }
 
 function Card(props: CardProps) {
   const [state, setState] = useState<"idle" | "attacking">("idle");
