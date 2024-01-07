@@ -1,9 +1,53 @@
+import { motion } from "framer-motion";
+import { useState, ReactNode } from "react";
 import bowser from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 
-function AttackBtn() {
+const spring = {
+  type: "spring",
+  stiffness: 700,
+  damping: 30,
+};
+
+type MoveProps = {
+  children: ReactNode;
+  state: "idle" | "attacking";
+  reset: () => void;
+  offset: number;
+};
+
+export function Move({ children, state, offset, reset }: MoveProps) {
+  const variants = {
+    idle: { x: 0 },
+    attacking: {
+      zIndex: 100,
+      x: [0, offset, 0],
+      duration: [0.1, 0.1, 2],
+      transition: [0.5, 0.5, 0.1],
+    },
+  };
+
   return (
-    <button className="bg-red-600 rounded-full text-white h-fit p-2 font-bold shadow border border-gray-200 hover:bg-gray-800">
+    <div className="flex">
+      <motion.div
+        animate={state}
+        transition={spring}
+        // layout
+        variants={variants}
+        onAnimationComplete={reset}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
+function AttackBtn({ attack }: { attack: () => void }) {
+  return (
+    <button
+      onClick={attack}
+      className="bg-red-600 rounded-full text-white h-fit p-2 font-bold shadow border border-gray-200 hover:bg-gray-800"
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
@@ -24,9 +68,37 @@ type CardProps = {
   imgWidth?: number;
   offsetLeft?: number;
   offsetRight?: number;
+  animateOffset: number;
+  damage: number;
 };
 
+function HeartGrid({ hearts }: { hearts: number }) {
+  return (
+    <div className="grid grid-cols-5 gap-1">
+      {Array.from({ length: hearts }).map((_, i) => (
+        <div
+          key={i}
+          className="w-8 h-8 rounded-full bg-red-600 border-4 border-red-600"
+        ></div>
+      ))}
+      {Array.from({ length: 20 - hearts }).map((_, i) => (
+        <div
+          key={i}
+          className="w-8 h-8 rounded-full bg-gray-600 border-4 border-red-600"
+        ></div>
+      ))}
+    </div>
+  );
+}
+
 function Card(props: CardProps) {
+  const [state, setState] = useState<"idle" | "attacking">("idle");
+  function reset() {
+    setState("idle");
+  }
+  function attack() {
+    setState("attacking");
+  }
   const stl = {} as React.CSSProperties;
 
   if (props.offsetLeft) stl.left = props.offsetLeft;
@@ -34,16 +106,21 @@ function Card(props: CardProps) {
   if (props.imgWidth) stl.width = props.imgWidth;
 
   return (
-    <div className="bg-white flex flex-col text-gray-500 w-96 h-[620px] px-4 shadow-lg rounded-2xl border-2 border-red-600">
+    <div className="bg-gray-50 flex flex-col text-gray-500 w-96 h-[640px] px-4 shadow-lg rounded-2xl border-[3px] border-red-600">
       <h2 className="text-2xl mb-20 bg-red-600 text-white uppercase font-semibold py-4 text-center mt-8 -mx-4">
         {props.title}
       </h2>
 
-      <div style={stl} className="relative z-10 drop-shadow">
-        <img src={props.img} alt={props.title} className="border-solid" />
-      </div>
-      <div className="flex-1 flex justify-center items-end m-4">
-        <AttackBtn />
+      <Move offset={props.animateOffset} state={state} reset={reset}>
+        <div style={stl} className="relative z-10 drop-shadow">
+          <img src={props.img} alt={props.title} className="border-solid" />
+        </div>
+      </Move>
+      <div className="flex-1 flex flex-col justify-end items-center m-4">
+        <AttackBtn attack={attack} />
+        <div className="mt-2 text-3xl text-red-500 font-bold">
+          {props.damage}
+        </div>
       </div>
     </div>
   );
@@ -65,20 +142,30 @@ function PlayBtn() {
 }
 
 function App() {
+  const [marioStats] = useState({ damage: 50, hearts: 20 });
+  const [bowserStats] = useState({ damage: 100, hearts: 100 });
+
   return (
     // main container
     <div className=" text-white p-4">
-      {/* <h1 className="text-3xl">Luta!</h1> */}
-
       <div className="flex flex-row gap-10 items-center">
         <Card
           title="Super Mario"
           img={mario}
           offsetRight={-100}
           imgWidth={300}
+          animateOffset={100}
+          damage={marioStats.damage}
         />
         <PlayBtn />
-        <Card title="Bowser" img={bowser} offsetLeft={-100} imgWidth={450} />
+        <Card
+          title="Bowser"
+          img={bowser}
+          offsetLeft={-100}
+          imgWidth={450}
+          animateOffset={-100}
+          damage={bowserStats.damage}
+        />
       </div>
     </div>
   );
