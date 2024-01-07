@@ -16,3 +16,4 @@ The objective is to get to a MFP (minimum fun product) by using PDD (post-it dri
 
 - Original image: https://cdn.mos.cms.futurecdn.net/feb474c37a551e5a86f5a4b6518cc218.jpg
 - Photopea for the image editing: https://www.photopea.com/
+- https://game-icons.net/ for the icons
