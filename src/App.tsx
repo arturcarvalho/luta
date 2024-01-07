@@ -46,7 +46,7 @@ function AttackBtn({ attack }: { attack: () => void }) {
   return (
     <button
       onClick={attack}
-      className="bg-red-600 rounded-full text-white h-fit p-2 font-bold shadow border-2 border-white hover:bg-gray-800"
+      className="bg-red-600 rounded-full text-white h-fit p-2 font-bold shadow border-2 border-white "
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -61,16 +61,6 @@ function AttackBtn({ attack }: { attack: () => void }) {
     </button>
   );
 }
-
-type PropsCard = {
-  title: string;
-  img: string;
-  imgWidth?: number;
-  offsetLeft?: number;
-  offsetRight?: number;
-  animateOffset: number;
-  damage: number;
-};
 
 function HeartGrid({ hearts }: { hearts: number }) {
   return (
@@ -91,33 +81,43 @@ function HeartGrid({ hearts }: { hearts: number }) {
   );
 }
 
+type PropsCard = {
+  title: string;
+  img: string;
+  imgWidth?: number;
+  offsetLeft?: number;
+  offsetRight?: number;
+  animateOffset: number;
+  damage: number;
+  state: "idle" | "attacking";
+  reset: () => void;
+  attack: () => void;
+};
+
 function Card(props: PropsCard) {
-  const [state, setState] = useState<"idle" | "attacking">("idle");
-  function reset() {
-    setState("idle");
-  }
-  function attack() {
-    setState("attacking");
-  }
-  const stl = {} as React.CSSProperties;
+  const stl: React.CSSProperties = {};
 
   if (props.offsetLeft) stl.left = props.offsetLeft;
   if (props.offsetRight) stl.right = props.offsetRight;
   if (props.imgWidth) stl.width = props.imgWidth;
 
   return (
-    <div className="bg-gray-50 flex flex-col text-gray-500 w-[240px] h-[440px] px-4 shadow-lg rounded-2xl border-[3px] border-red-600">
+    <div className="bg-gray-50 flex flex-col text-gray-500 w-[280px] h-[440px] px-4 shadow-lg rounded-2xl border-[3px] border-red-600">
       <h2 className="text-2xl mb-6 bg-red-600 text-white uppercase font-semibold py-4 text-center mt-6 -mx-4">
         {props.title}
       </h2>
 
-      <Move offset={props.animateOffset} state={state} reset={reset}>
+      <Move
+        offset={props.animateOffset}
+        state={props.state}
+        reset={props.reset}
+      >
         <div style={stl} className="relative z-10 drop-shadow">
           <img src={props.img} alt={props.title} className="border-solid" />
         </div>
       </Move>
       <div className="flex-1 flex flex-col justify-end items-center">
-        <AttackBtn attack={attack} />
+        <AttackBtn attack={props.attack} />
         <div className="mt- text-3xl text-red-500 font-bold">
           {props.damage}
         </div>
@@ -140,9 +140,45 @@ function PlayBtn() {
   );
 }
 
+type HeroStates = "idle" | "attacking";
+type Hero = {
+  name: string;
+  damage: number;
+  hearts: number;
+  state: HeroStates;
+};
 function App() {
-  const [marioStats] = useState({ damage: 50, hearts: 50 });
-  const [bowserStats] = useState({ damage: 100, hearts: 100 });
+  const [leftStats, setLeftStats] = useState<Hero>({
+    name: "Super Mario",
+    damage: 50,
+    hearts: 50,
+    state: "idle",
+  });
+  const [rightStats, setRightStats] = useState<Hero>({
+    name: "Bowser",
+    damage: 10,
+    hearts: 1000,
+    state: "idle",
+  });
+
+  function leftAttack() {
+    setLeftStats((prev) => ({ ...prev, state: "attacking" }));
+    const updatedHearts = Math.max(rightStats.hearts - leftStats.damage, 0);
+    setRightStats((prev) => ({ ...prev, hearts: updatedHearts }));
+  }
+
+  function resetLeft() {
+    setLeftStats((prev) => ({ ...prev, state: "idle" }));
+  }
+
+  function rightAttack() {
+    setRightStats((prev) => ({ ...prev, state: "attacking" }));
+    const updatedHearts = Math.max(leftStats.hearts - rightStats.damage, 0);
+    setLeftStats((prev) => ({ ...prev, hearts: updatedHearts }));
+  }
+  function resetRight() {
+    setRightStats((prev) => ({ ...prev, state: "idle" }));
+  }
 
   return (
     // main container
@@ -150,14 +186,17 @@ function App() {
       <div className="flex flex-row gap-10">
         <div className="flex flex-col items-center">
           <Card
+            state={leftStats.state}
+            reset={resetLeft}
+            attack={leftAttack}
             title="Super Mario"
             img={mario}
-            offsetRight={-50}
+            offsetRight={-90}
             imgWidth={200}
             animateOffset={100}
-            damage={marioStats.damage}
+            damage={leftStats.damage}
           />
-          <HeartGrid hearts={marioStats.hearts} />
+          <HeartGrid hearts={leftStats.hearts} />
         </div>
 
         <div className="mt-24">
@@ -166,14 +205,17 @@ function App() {
 
         <div className="flex flex-col items-center">
           <Card
+            state={rightStats.state}
+            reset={resetRight}
+            attack={rightAttack}
             title="Bowser"
             img={bowser}
             offsetLeft={-50}
             imgWidth={300}
             animateOffset={-100}
-            damage={bowserStats.damage}
+            damage={rightStats.damage}
           />
-          <HeartGrid hearts={bowserStats.hearts} />
+          <HeartGrid hearts={rightStats.hearts} />
         </div>
       </div>
     </div>
