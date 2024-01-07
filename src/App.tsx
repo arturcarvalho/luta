@@ -133,7 +133,7 @@ function PlayBtn() {
   return (
     <button
       onClick={handleClick}
-      className="text-lg  h-fit px-4 py-2 font-bold uppercase rounded-md shadow-md text-white bg-red-500"
+      className="text-lg select-none h-fit px-4 py-2 font-bold uppercase rounded-md shadow-md text-white bg-red-500"
     >
       Play
     </button>
@@ -166,7 +166,7 @@ function App() {
     const updatedHearts = Math.max(rightStats.hearts - leftStats.damage, 0);
     setRightStats((prev) => ({ ...prev, hearts: updatedHearts }));
   }
-
+ 
   function resetLeft() {
     setLeftStats((prev) => ({ ...prev, state: "idle" }));
   }
@@ -184,7 +184,7 @@ function App() {
     // main container
     <div className=" text-white p-4 flex justify-center">
       <div className="flex flex-row gap-10">
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center select-none">
           <Card
             state={leftStats.state}
             reset={resetLeft}
@@ -203,7 +203,7 @@ function App() {
           <PlayBtn />
         </div>
 
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center select-none">
           <Card
             state={rightStats.state}
             reset={resetRight}
