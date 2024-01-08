@@ -1,43 +1,18 @@
-import { motion } from "framer-motion";
+import { type AnimationScope, motion, useAnimate } from "framer-motion";
 import { useState, ReactNode } from "react";
 import bowser from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 
-const spring = {
-  type: "spring",
-  stiffness: 700,
-  damping: 30,
-};
-
 type MoveProps = {
   children: ReactNode;
-  state: "idle" | "attacking";
-  reset: () => void;
   offset: number;
+  scope: AnimationScope;
 };
 
-export function Move({ children, state, offset, reset }: MoveProps) {
-  const variants = {
-    idle: { x: 0 },
-    attacking: {
-      zIndex: 100,
-      x: [0, offset, 0],
-      duration: [0.1, 0.1, 2],
-      transition: [0.5, 0.5, 0.1],
-    },
-  };
-
+export function Move({ children, scope }: MoveProps) {
   return (
     <div className="flex">
-      <motion.div
-        animate={state}
-        transition={spring}
-        // layout
-        variants={variants}
-        onAnimationComplete={reset}
-      >
-        {children}
-      </motion.div>
+      <motion.div ref={scope}>{children}</motion.div>
     </div>
   );
 }
@@ -89,8 +64,8 @@ type PropsCard = {
   offsetRight?: number;
   animateOffset: number;
   damage: number;
-  state: "idle" | "attacking";
-  reset: () => void;
+  scope: AnimationScope;
+
   attack: () => void;
 };
 
@@ -107,11 +82,7 @@ function Card(props: PropsCard) {
         {props.title}
       </h2>
 
-      <Move
-        offset={props.animateOffset}
-        state={props.state}
-        reset={props.reset}
-      >
+      <Move scope={props.scope} offset={props.animateOffset}>
         <div style={stl} className="relative z-10 drop-shadow">
           <img src={props.img} alt={props.title} className="border-solid" />
         </div>
@@ -151,44 +122,56 @@ function PlayBtn() {
   );
 }
 
-type HeroStates = "idle" | "attacking";
 type Hero = {
   name: string;
   damage: number;
   hearts: number;
-  state: HeroStates;
 };
 function App() {
+  const [scopeLeft, animateLeft] = useAnimate();
+  const [scopeRight, animateRight] = useAnimate();
   const [leftStats, setLeftStats] = useState<Hero>({
     name: "Super Mario",
     damage: 50,
     hearts: 50,
-    state: "idle",
   });
   const [rightStats, setRightStats] = useState<Hero>({
     name: "Bowser",
     damage: 10,
     hearts: 1000,
-    state: "idle",
   });
 
+  function animateLeftAttack() {
+    animateLeft(
+      scopeLeft.current,
+      {
+        x: [100, 0],
+      },
+      { duration: 0.5 }
+    );
+  }
+
+  function animateRightAttack() {
+    animateRight(
+      scopeRight.current,
+      {
+        x: [-100, 0],
+      },
+      { duration: 0.5 }
+    );
+  }
+
   function leftAttack() {
-    setLeftStats((prev) => ({ ...prev, state: "attacking" }));
+    animateLeftAttack();
     const updatedHearts = Math.max(rightStats.hearts - leftStats.damage, 0);
     setRightStats((prev) => ({ ...prev, hearts: updatedHearts }));
   }
 
-  function resetLeft() {
-    setLeftStats((prev) => ({ ...prev, state: "idle" }));
-  }
-
   function rightAttack() {
+    animateRightAttack();
     setRightStats((prev) => ({ ...prev, state: "attacking" }));
     const updatedHearts = Math.max(leftStats.hearts - rightStats.damage, 0);
     setLeftStats((prev) => ({ ...prev, hearts: updatedHearts }));
-  }
-  function resetRight() {
-    setRightStats((prev) => ({ ...prev, state: "idle" }));
   }
 
   return (
@@ -197,8 +180,7 @@ function App() {
       <div className="flex flex-row gap-10">
         <div className="flex flex-col items-center select-none">
           <Card
-            state={leftStats.state}
-            reset={resetLeft}
+            scope={scopeLeft}
             attack={leftAttack}
             title="Super Mario"
             img={mario}
@@ -216,8 +198,7 @@ function App() {
 
         <div className="flex flex-col items-center select-none">
           <Card
-            state={rightStats.state}
-            reset={resetRight}
+            scope={scopeRight}
             attack={rightAttack}
             title="Bowser"
             img={bowser}
