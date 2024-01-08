@@ -5,6 +5,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { useState, ReactNode } from "react";
+ // @ts-expect-error the lib is not typed
 import useSound from "use-sound";
 import baum from "./assets/baum.mp3";
 import bowser from "./assets/bowser.png";
@@ -113,31 +114,31 @@ function Card(props: PropsCard) {
     </div>
   );
 }
-function PlayBtn() {
-  function handleClick() {
-    console.log("Play!");
-  }
+// function PlayBtn() {
+//   function handleClick() {
+//     console.log("Play!");
+//   }
 
-  return (
-    <button
-      onClick={handleClick}
-      className="text-lg select-none h-fit p-4 font-bold uppercase rounded-full shadow-md text-white bg-red-500"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        className="w-6 h-6"
-      >
-        <path
-          fillRule="evenodd"
-          d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-          clipRule="evenodd"
-        />
-      </svg>
-    </button>
-  );
-}
+//   return (
+//     <button
+//       onClick={handleClick}
+//       className="text-lg select-none h-fit p-4 font-bold uppercase rounded-full shadow-md text-white bg-red-500"
+//     >
+//       <svg
+//         xmlns="http://www.w3.org/2000/svg"
+//         viewBox="0 0 24 24"
+//         fill="currentColor"
+//         className="w-6 h-6"
+//       >
+//         <path
+//           fillRule="evenodd"
+//           d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+//           clipRule="evenodd"
+//         />
+//       </svg>
+//     </button>
+//   );
+// }
 
 type Hero = {
   name: string;
