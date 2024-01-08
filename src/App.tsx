@@ -5,6 +5,8 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { useState, ReactNode } from "react";
+import useSound from "use-sound";
+import baum from "./assets/baum.mp3";
 import bowser from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 
@@ -143,11 +145,12 @@ type Hero = {
   hearts: number[];
 };
 function App() {
+  const [play] = useSound(baum);
   const [scopeLeft, animateLeft] = useAnimate();
   const [scopeRight, animateRight] = useAnimate();
   const [leftStats, setLeftStats] = useState<Hero>({
     name: "Super Mario",
-    damage: 50,
+    damage: 25,
     hearts: [...Array(50).keys()],
   });
   const [rightStats, setRightStats] = useState<Hero>({
@@ -157,6 +160,7 @@ function App() {
   });
 
   function animateLeftAttack() {
+    play();
     animateLeft(
       scopeLeft.current,
       {
@@ -167,6 +171,7 @@ function App() {
   }
 
   function animateRightAttack() {
+    play();
     animateRight(
       scopeRight.current,
       {
@@ -212,8 +217,8 @@ function App() {
           <HeartGrid hearts={leftStats.hearts} />
         </div>
 
-        <div className="mt-8">
-          <PlayBtn />
+        <div className="mt-8 px-4">
+          {/* <PlayBtn /> */}
         </div>
 
         <div className="flex flex-col items-center select-none">
