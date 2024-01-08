@@ -1,15 +1,20 @@
-import { type AnimationScope, motion, useAnimate } from "framer-motion";
+import {
+  type AnimationScope,
+  motion,
+  useAnimate,
+  AnimatePresence,
+} from "framer-motion";
 import { useState, ReactNode } from "react";
 import bowser from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 
-type MoveProps = {
+type PropsMove = {
   children: ReactNode;
   offset: number;
   scope: AnimationScope;
 };
 
-export function Move({ children, scope }: MoveProps) {
+export function Move({ children, scope }: PropsMove) {
   return (
     <div className="flex">
       <motion.div ref={scope}>{children}</motion.div>
@@ -37,21 +42,31 @@ function AttackBtn({ attack }: { attack: () => void }) {
   );
 }
 
-function HeartGrid({ hearts }: { hearts: number }) {
+function HeartGrid({ hearts }: { hearts: number[] }) {
   return (
     <div className="grid grid-cols-10 gap-1 mt-2">
-      {Array.from({ length: hearts }).map((_, i) => (
-        <div key={i} className=" text-red-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            className="w-6 h-6"
-          >
-            <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
-          </svg>
-        </div>
-      ))}
+      <AnimatePresence>
+        {hearts.map((id) => {
+          return (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.5 } }}
+              key={id}
+              className="text-red-500"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="w-6 h-6"
+              >
+                <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
+              </svg>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 }
@@ -125,7 +140,7 @@ function PlayBtn() {
 type Hero = {
   name: string;
   damage: number;
-  hearts: number;
+  hearts: number[];
 };
 function App() {
   const [scopeLeft, animateLeft] = useAnimate();
@@ -133,12 +148,12 @@ function App() {
   const [leftStats, setLeftStats] = useState<Hero>({
     name: "Super Mario",
     damage: 50,
-    hearts: 50,
+    hearts: [...Array(50).keys()],
   });
   const [rightStats, setRightStats] = useState<Hero>({
     name: "Bowser",
     damage: 10,
-    hearts: 1000,
+    hearts: [...Array(500).keys()],
   });
 
   function animateLeftAttack() {
@@ -163,15 +178,20 @@ function App() {
 
   function leftAttack() {
     animateLeftAttack();
-    const updatedHearts = Math.max(rightStats.hearts - leftStats.damage, 0);
-    setRightStats((prev) => ({ ...prev, hearts: updatedHearts }));
+
+    setRightStats((prev) => ({
+      ...prev,
+      hearts: prev.hearts.slice(leftStats.damage),
+    }));
   }
 
   function rightAttack() {
     animateRightAttack();
-    setRightStats((prev) => ({ ...prev, state: "attacking" }));
-    const updatedHearts = Math.max(leftStats.hearts - rightStats.damage, 0);
-    setLeftStats((prev) => ({ ...prev, hearts: updatedHearts }));
+
+    setLeftStats((prev) => ({
+      ...prev,
+      hearts: prev.hearts.slice(rightStats.damage),
+    }));
   }
 
   return (
