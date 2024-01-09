@@ -5,9 +5,10 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { useState, ReactNode } from "react";
- // @ts-expect-error the lib is not typed
+// @ts-expect-error the lib is not typed
 import useSound from "use-sound";
 import baum from "./assets/baum.mp3";
+import yah from "./assets/yah.mp3";
 import bowser from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 
@@ -54,7 +55,7 @@ function HeartGrid({ hearts }: { hearts: number[] }) {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.5 } }}
+              exit={{ opacity: 0, scale: 3, transition: { duration: 0.5 } }}
               key={id}
               className="text-red-500"
             >
@@ -82,6 +83,7 @@ type PropsCard = {
   offsetRight?: number;
   animateOffset: number;
   damage: number;
+  hasHearts: boolean;
   scope: AnimationScope;
 
   attack: () => void;
@@ -95,7 +97,14 @@ function Card(props: PropsCard) {
   if (props.imgWidth) stl.width = props.imgWidth;
 
   return (
-    <div className="bg-gray-50 flex flex-col text-gray-500 w-[280px] h-[440px] px-4 shadow-lg rounded-2xl border-[3px] border-red-600">
+    <div className="bg-gray-50 flex flex-col text-gray-500 w-[280px] h-[440px] px-4 shadow-lg rounded-2xl border-[3px] border-red-600 relative">
+      {/* big cross */}
+      {!props.hasHearts && (
+        <div className="absolute text-[300px] z-30 left-0 right-0 text-center text-gray-700 font-bold">
+          X
+        </div>
+      )}
+
       <h2 className="text-2xl mb-6 bg-red-600 text-white uppercase font-semibold py-4 text-center mt-6 -mx-4">
         {props.title}
       </h2>
@@ -105,40 +114,39 @@ function Card(props: PropsCard) {
           <img src={props.img} alt={props.title} className="border-solid" />
         </div>
       </Move>
-      <div className="flex-1 flex flex-col justify-end items-center">
-        <AttackBtn attack={props.attack} />
-        <div className="mt- text-3xl text-red-500 font-bold">
-          {props.damage}
+      {props.hasHearts && (
+        <div className="flex-1 flex flex-col justify-end items-center">
+          <AttackBtn attack={props.attack} />
+          <div className="mt- text-3xl text-red-500 font-bold">
+            {props.damage}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
-// function PlayBtn() {
-//   function handleClick() {
-//     console.log("Play!");
-//   }
 
-//   return (
-//     <button
-//       onClick={handleClick}
-//       className="text-lg select-none h-fit p-4 font-bold uppercase rounded-full shadow-md text-white bg-red-500"
-//     >
-//       <svg
-//         xmlns="http://www.w3.org/2000/svg"
-//         viewBox="0 0 24 24"
-//         fill="currentColor"
-//         className="w-6 h-6"
-//       >
-//         <path
-//           fillRule="evenodd"
-//           d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
-//           clipRule="evenodd"
-//         />
-//       </svg>
-//     </button>
-//   );
-// }
+function PlayBtn({ handleClick }: { handleClick: () => void }) {
+  return (
+    <button
+      onClick={handleClick}
+      className="text-lg select-none h-fit p-4 font-bold uppercase rounded-full shadow-md text-white bg-red-500"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="w-6 h-6"
+      >
+        <path
+          fillRule="evenodd"
+          d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </button>
+  );
+}
 
 type Hero = {
   name: string;
@@ -146,22 +154,33 @@ type Hero = {
   hearts: number[];
 };
 function App() {
-  const [play] = useSound(baum);
+  const [playBaum] = useSound(baum);
+  const [playYah] = useSound(yah);
   const [scopeLeft, animateLeft] = useAnimate();
   const [scopeRight, animateRight] = useAnimate();
-  const [leftStats, setLeftStats] = useState<Hero>({
+
+  const initialLeft: Hero = {
     name: "Super Mario",
     damage: 25,
     hearts: [...Array(50).keys()],
-  });
-  const [rightStats, setRightStats] = useState<Hero>({
+  };
+
+  const initialRight: Hero = {
     name: "Bowser",
     damage: 10,
-    hearts: [...Array(500).keys()],
-  });
+    hearts: [...Array(100).keys()],
+  };
+
+  const [leftStats, setLeftStats] = useState<Hero>(initialLeft);
+  const [rightStats, setRightStats] = useState<Hero>(initialRight);
+
+  function reset() {
+    setLeftStats(initialLeft);
+    setRightStats(initialRight);
+  }
 
   function animateLeftAttack() {
-    play();
+    playYah();
     animateLeft(
       scopeLeft.current,
       {
@@ -172,7 +191,7 @@ function App() {
   }
 
   function animateRightAttack() {
-    play();
+    playBaum();
     animateRight(
       scopeRight.current,
       {
@@ -214,12 +233,13 @@ function App() {
             imgWidth={200}
             animateOffset={100}
             damage={leftStats.damage}
+            hasHearts={leftStats.hearts.length > 0}
           />
           <HeartGrid hearts={leftStats.hearts} />
         </div>
 
         <div className="mt-8 px-4">
-          {/* <PlayBtn /> */}
+          <PlayBtn handleClick={reset} />
         </div>
 
         <div className="flex flex-col items-center select-none">
@@ -232,6 +252,7 @@ function App() {
             imgWidth={300}
             animateOffset={-100}
             damage={rightStats.damage}
+            hasHearts={rightStats.hearts.length > 0}
           />
           <HeartGrid hearts={rightStats.hearts} />
         </div>
