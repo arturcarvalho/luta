@@ -116,15 +116,48 @@ function Card(props: PropsCard) {
   );
 }
 
+function BackBtn({ handleClick }: { handleClick: () => void }) {
+  return (
+    <button
+      onClick={handleClick}
+      className="mt-3 ml-3 text-lg select-none text-gray-600"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        className="w-10 h-10"
+      >
+        <path
+          fillRule="evenodd"
+          d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-4.28 9.22a.75.75 0 0 0 0 1.06l3 3a.75.75 0 1 0 1.06-1.06l-1.72-1.72h5.69a.75.75 0 0 0 0-1.5h-5.69l1.72-1.72a.75.75 0 0 0-1.06-1.06l-3 3Z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </button>
+  );
+}
+
 function ReloadBtn({ handleClick }: { handleClick: () => void }) {
   return (
     <button
       onClick={handleClick}
       className="text-lg select-none h-fit p-4 font-bold uppercase rounded-full shadow-md text-white bg-green-500"
     >
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-</svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        strokeWidth={1.5}
+        stroke="currentColor"
+        className="w-6 h-6"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99"
+        />
+      </svg>
     </button>
   );
 }
@@ -188,41 +221,44 @@ function App() {
   }
 
   return (
-    // main container
-    <div className=" text-white p-4 flex justify-center">
-      <div className="flex flex-row">
-        <div className="flex flex-col items-center select-none">
-          <Card
-            scope={scopeLeft}
-            attack={leftAttack}
-            title={initialLeft.name}
-            img={initialLeft.img}
-            offsetRight={initialLeft.onLeft.offset}
-            animateOffset={initialLeft.onLeft.animateOffset}
-            imgWidth={initialLeft.imgWidth}
-            damage={leftStats.damage}
-            heartsCnt={leftStats.hearts.length}
-          />
-          <HeartGrid hearts={leftStats.hearts} />
-        </div>
+    <div className="flex flex-col">
+      <BackBtn handleClick={() => {}} />
+      {/* main container */}
+      <div className="text-white flex justify-center">
+        <div className="flex flex-row">
+          <div className="flex flex-col items-center select-none">
+            <Card
+              scope={scopeLeft}
+              attack={leftAttack}
+              title={initialLeft.name}
+              img={initialLeft.img}
+              offsetRight={initialLeft.onLeft.offset}
+              animateOffset={initialLeft.onLeft.animateOffset}
+              imgWidth={initialLeft.imgWidth}
+              damage={leftStats.damage}
+              heartsCnt={leftStats.hearts.length}
+            />
+            <HeartGrid hearts={leftStats.hearts} />
+          </div>
 
-        <div className="mt-16 px-6">
-          <ReloadBtn handleClick={reset} />
-        </div>
+          <div className="mt-16 px-6">
+            <ReloadBtn handleClick={reset} />
+          </div>
 
-        <div className="flex flex-col items-center select-none">
-          <Card
-            scope={scopeRight}
-            attack={rightAttack}
-            title={initialRight.name}
-            img={initialRight.img}
-            offsetLeft={initialRight.onRight.offset}
-            animateOffset={initialRight.onRight.animateOffset}
-            imgWidth={initialRight.imgWidth}
-            damage={rightStats.damage}
-            heartsCnt={rightStats.hearts.length}
-          />
-          <HeartGrid hearts={rightStats.hearts} />
+          <div className="flex flex-col items-center select-none">
+            <Card
+              scope={scopeRight}
+              attack={rightAttack}
+              title={initialRight.name}
+              img={initialRight.img}
+              offsetLeft={initialRight.onRight.offset}
+              animateOffset={initialRight.onRight.animateOffset}
+              imgWidth={initialRight.imgWidth}
+              damage={rightStats.damage}
+              heartsCnt={rightStats.hearts.length}
+            />
+            <HeartGrid hearts={rightStats.hearts} />
+          </div>
         </div>
       </div>
     </div>
