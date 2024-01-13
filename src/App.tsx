@@ -99,8 +99,6 @@ function App() {
   }
 
   function nextLeftHero() {
-    console.log("nextLeftHero");
-
     const index = leftHero.index;
     const nextIndex = (index + 1) % heroesList.length;
     setLeftHero(nextIndex);
