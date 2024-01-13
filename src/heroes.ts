@@ -38,7 +38,7 @@ export const heroes: Record<string, Hero> = {
     damage: 10,
     hearts: makeHeartsRange(100),
     attackSound: baum,    
-    onLeft: { offset: -50, animateOffset: -250 },
+    onLeft: { offset: -20, animateOffset: -250 },
     onRight: { offset: -50, animateOffset: -250 },
   },
   penumbra: {

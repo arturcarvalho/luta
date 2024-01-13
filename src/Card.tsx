@@ -25,7 +25,7 @@ type PropsCard = {
   damage: number;
   heartsCnt: number;
   scope: AnimationScope;
-
+  flip?: boolean;
   attack: () => void;
 };
 
@@ -69,6 +69,7 @@ export default function Card(props: PropsCard) {
       <Move scope={props.scope} offset={props.animateOffset}>
         <div style={stl} className="relative z-10">
           <img
+            style={{ transform: props.flip ? "scaleX(-1)" : "scaleX(1)" }}
             src={props.img}
             alt={props.title}
             className="border-solid drop-shadow"

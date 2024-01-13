@@ -91,6 +91,7 @@ function FightScreen(props: Props) {
 
         <div className="flex flex-col items-center select-none">
           <Card
+            flip
             scope={props.scopeRight}
             attack={props.rightAttack}
             title={props.rightHero.name}
