@@ -8,15 +8,19 @@ type PropsImgSelector = {
 };
 function ImgSelector(props: PropsImgSelector) {
   return (
-    <div className="flex items-center">
-      <button className=" text-stone-500" onClick={props.previous}>
+    <div className="flex items-end">
+      <button
+        title="previous"
+        className="-mr-8 shadow z-10 text-gray-500 bg-white rounded-full"
+        onClick={props.previous}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-10 h-10"
+          className="w-14 h-14"
         >
           <path
             strokeLinecap="round"
@@ -27,18 +31,18 @@ function ImgSelector(props: PropsImgSelector) {
       </button>
       <img
         style={{ transform: props.flip ? "scaleX(-1)" : "scaleX(1)" }}
-        className="rounded-full bg-orange-400 h-40 w-40 border-2 border-white drop-shadow"
+        className="rounded-full bg-red-500 h-40 w-40 border-4 border-white "
         src={props.hero.img}
         alt={props.hero.name}
       />
-      <button className=" text-stone-500" onClick={props.next}>
+      <button title="next" className="-ml-8 shadow z-10 text-gray-500 bg-white rounded-full" onClick={props.next}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-10 h-10"
+          className="w-14 h-14"
         >
           <path
             strokeLinecap="round"
@@ -81,9 +85,9 @@ type Props = {
 };
 export default function SelectScreen(props: Props) {
   return (
-    <div className="bg-stone-200 m-auto h-full flex">
+    <div className="m-auto h-full flex">
       <div className="mt-10">
-        <div className="w-[600px] m-2 flex gap-x-6 justify-center items-center">
+        <div className="w-[640px] m-2 flex gap-x-6 justify-center items-center">
           <ImgSelector
             hero={props.leftHero}
             previous={props.previousLeftHero}

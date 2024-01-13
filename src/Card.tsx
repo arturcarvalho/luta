@@ -15,6 +15,7 @@ function Move({ children, scope }: PropsMove) {
   );
 }
 
+// todo: Simplify and use hero directly. Too many props
 type PropsCard = {
   title: string;
   img: string;
