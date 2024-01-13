@@ -59,10 +59,9 @@ type Props = {
   reset: () => void;
   leftAttack: () => void;
   rightAttack: () => void;
-  initialLeft: Hero;
-  initialRight: Hero;
-  leftStats: Hero;
-  rightStats: Hero;
+
+  leftHero: Hero;
+  rightHero: Hero;
   scopeLeft: AnimationScope;
   scopeRight: AnimationScope;
 };
@@ -75,15 +74,15 @@ function FightScreen(props: Props) {
           <Card
             scope={props.scopeLeft}
             attack={props.leftAttack}
-            title={props.initialLeft.name}
-            img={props.initialLeft.img}
-            offsetRight={props.initialLeft.onLeft.offset}
-            animateOffset={props.initialLeft.onLeft.animateOffset}
-            imgWidth={props.initialLeft.imgWidth}
-            damage={props.initialLeft.damage}
-            heartsCnt={props.leftStats.hearts.length}
+            title={props.leftHero.name}
+            img={props.leftHero.img}
+            offsetRight={props.leftHero.onLeft.offset}
+            animateOffset={props.leftHero.onLeft.animateOffset}
+            imgWidth={props.leftHero.imgWidth}
+            damage={props.leftHero.damage}
+            heartsCnt={props.leftHero.hearts.length}
           />
-          <HeartGrid hearts={props.leftStats.hearts} />
+          <HeartGrid hearts={props.leftHero.hearts} />
         </div>
 
         <div className="mt-16 px-6">
@@ -94,15 +93,15 @@ function FightScreen(props: Props) {
           <Card
             scope={props.scopeRight}
             attack={props.rightAttack}
-            title={props.initialRight.name}
-            img={props.initialRight.img}
-            offsetLeft={props.initialRight.onRight.offset}
-            animateOffset={props.initialRight.onRight.animateOffset}
-            imgWidth={props.initialRight.imgWidth}
-            damage={props.initialRight.damage}
-            heartsCnt={props.rightStats.hearts.length}
+            title={props.rightHero.name}
+            img={props.rightHero.img}
+            offsetLeft={props.rightHero.onRight.offset}
+            animateOffset={props.rightHero.onRight.animateOffset}
+            imgWidth={props.rightHero.imgWidth}
+            damage={props.rightHero.damage}
+            heartsCnt={props.rightHero.hearts.length}
           />
-          <HeartGrid hearts={props.rightStats.hearts} />
+          <HeartGrid hearts={props.rightHero.hearts} />
         </div>
       </div>
     </div>

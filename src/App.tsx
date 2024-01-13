@@ -1,9 +1,10 @@
-import { motion, useAnimate, AnimatePresence } from "framer-motion";
+import { useAnimate } from "framer-motion";
 import FightScreen from "./FightScreen";
 import { useState } from "react";
 // @ts-expect-error the lib is not typed
 import useSound from "use-sound";
 import { type Hero, heroes } from "./heroes";
+import SelectScreen from "./SelectScreen";
 
 function BackBtn({ handleClick }: { handleClick: () => void }) {
   return (
@@ -28,70 +29,131 @@ function BackBtn({ handleClick }: { handleClick: () => void }) {
 }
 
 function App() {
-  const initialLeft: Hero = heroes.penumbra;
+  const heroesList: Hero[] = Object.keys(heroes).map((key) => heroes[key]);
+  const [screen, setScreen] = useState<"fight" | "select">("select");
 
-  const initialRight: Hero = heroes.bowser;
+  function goSelect() {
+    setScreen("select");
+  }
 
-  const [playLeft] = useSound(initialLeft.attackSound);
-  const [playRight] = useSound(initialRight.attackSound);
+  function goFight() {
+    setScreen("fight");
+  }
+
   const [scopeLeft, animateLeft] = useAnimate();
   const [scopeRight, animateRight] = useAnimate();
 
-  // todo: change leftStats to heartsLeft and rightStats to heartsRight.
-  const [leftStats, setLeftStats] = useState<Hero>(initialLeft);
-  const [rightStats, setRightStats] = useState<Hero>(initialRight);
+  type IndexedHero = Hero & { index: number };
 
+  const getIdxHero = (index: number): IndexedHero => ({
+    ...heroesList[index],
+    index,
+  });
+
+  const [leftHero, setIdxLeftHero] = useState<IndexedHero>(getIdxHero(0));
+  const [rightHero, setIdxRightHero] = useState<IndexedHero>(getIdxHero(1));
+
+  const [playLeft] = useSound(leftHero.attackSound);
+  const [playRight] = useSound(rightHero.attackSound);
+
+  function setLeftHero(idx: number) {
+    setIdxLeftHero(getIdxHero(idx));
+  }
+
+  function setRightHero(idx: number) {
+    setIdxRightHero(getIdxHero(idx));
+  }
+
+  // todo: reset each hero independently
   function reset() {
-    setLeftStats(initialLeft);
-    setRightStats(initialRight);
+    setLeftHero(leftHero.index);
+    setRightHero(rightHero.index);
   }
 
   function animateLeftAttack() {
     playLeft();
-    animateLeft(
-      scopeLeft.current,
-      {
-        x: [100, 0],
-      },
-      { duration: 0.5 }
-    );
+    animateLeft(scopeLeft.current, { x: [100, 0] }, { duration: 0.5 });
   }
 
   function animateRightAttack() {
     playRight();
-    animateRight(
-      scopeRight.current,
-      {
-        x: [-100, 0],
-      },
-      { duration: 0.5 }
-    );
+    animateRight(scopeRight.current, { x: [-100, 0] }, { duration: 0.5 });
   }
 
   function leftAttack() {
     animateLeftAttack();
 
-    setRightStats((prev) => ({
+    setIdxRightHero((prev) => ({
       ...prev,
-      hearts: prev.hearts.slice(leftStats.damage),
+      hearts: prev.hearts.slice(leftHero.damage),
     }));
   }
 
   function rightAttack() {
     animateRightAttack();
 
-    setLeftStats((prev) => ({
+    setIdxLeftHero((prev) => ({
       ...prev,
-      hearts: prev.hearts.slice(rightStats.damage),
+      hearts: prev.hearts.slice(rightHero.damage),
     }));
   }
 
+  function nextLeftHero() {
+    console.log("nextLeftHero");
+
+    const index = leftHero.index;
+    const nextIndex = (index + 1) % heroesList.length;
+    setLeftHero(nextIndex);
+  }
+
+  function previousLeftHero() {
+    const index = leftHero.index;
+    const prevIndex = (index - 1 + heroesList.length) % heroesList.length;
+    setLeftHero(prevIndex);
+  }
+
+  function nextRightHero() {
+    const index = rightHero.index;
+    const nextIndex = (index + 1) % heroesList.length;
+    setRightHero(nextIndex);
+  }
+
+  function previousRightHero() {
+    const index = rightHero.index;
+    const prevIndex = (index - 1 + heroesList.length) % heroesList.length;
+    setRightHero(prevIndex);
+  }
+
   return (
-    <div className="flex flex-col">
-      <BackBtn handleClick={() => {}} />
-      <FightScreen
-        {...{ initialLeft, initialRight, reset, leftAttack, rightAttack, scopeLeft, scopeRight, leftStats, rightStats }}
-      />
+    <div className="flex flex-col h-full">
+      {screen === "select" && (
+        <SelectScreen
+          previousLeftHero={previousLeftHero}
+          nextLeftHero={nextLeftHero}
+          previousRightHero={previousRightHero}
+          nextRightHero={nextRightHero}
+          handleClick={goFight}
+          leftHero={leftHero}
+          rightHero={rightHero}
+        />
+      )}
+
+      {screen === "fight" && (
+        <>
+          <BackBtn handleClick={goSelect} />
+          <FightScreen
+            {...{
+              reset,
+              leftAttack,
+              rightAttack,
+              scopeLeft,
+              scopeRight,
+              leftHero,
+              rightHero,
+            }}
+          />
+        </>
+      )}
     </div>
   );
 }
