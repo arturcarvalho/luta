@@ -10,13 +10,13 @@ function BackBtn({ handleClick }: { handleClick: () => void }) {
   return (
     <button
       onClick={handleClick}
-      className="mt-3 ml-3 text-lg select-none text-gray-600"
+      className="mt-3 ml-3 -mb-12 text-lg select-none text-gray-600 z-10"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
-        className="w-10 h-10"
+        className="w-20 h-20"
       >
         <path
           fillRule="evenodd"
