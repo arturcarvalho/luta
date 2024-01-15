@@ -164,7 +164,7 @@ export default function SelectScreen(props: Props) {
   return (
     <div className="m-auto flex-1 flex ">
       <div className="flex-1">
-        <div className="m-2 flex gap-x-6 justify-center items-center h-full">
+        <div className="flex gap-x-6 justify-center items-center h-full">
           <HeroSelector
             hero={props.leftHero}
             previous={props.previousLeftHero}
