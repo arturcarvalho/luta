@@ -53,8 +53,8 @@ type PropsImgSelector = {
 };
 function HeroSelector(props: PropsImgSelector) {
   return (
-    <div className="flex flex-col items-center p-4 h-full">
-      <div className="flex  flex-col items-center border-2 px-2 h-full rounded-2xl w-[300px] bg-gray-50 ">
+    <div className="flex flex-col items-center my-4 h-full">
+      <div className="flex  flex-col items-center border-2 px-2 py-4 h-full rounded-2xl w-[300px] bg-gray-50 ">
         <div className="flex items-end mt-2 ">
           <button
             title="previous"
@@ -164,7 +164,7 @@ export default function SelectScreen(props: Props) {
   return (
     <div className="m-auto flex-1 flex ">
       <div className="flex-1">
-        <div className="flex gap-x-6 justify-center items-center h-full">
+        <div className="flex gap-x-6 justify-center items-center">
           <HeroSelector
             hero={props.leftHero}
             previous={props.previousLeftHero}
