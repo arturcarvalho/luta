@@ -4,6 +4,8 @@ import IconAge from "./IconAge";
 import IconBrain from "./IconBrain";
 import type { Hero, Power } from "./heroes";
 import { useSoundFx } from "./useSoundFx";
+// @ts-expect-error the lib is not typed
+import useSound from "use-sound";
 
 type PropsStat = { children: React.ReactNode };
 function Stat(p: PropsStat) {
@@ -54,6 +56,7 @@ type PropsImgSelector = {
 };
 function HeroSelector(props: PropsImgSelector) {
   const { playHearts, playAttack, playIntelligence, playYears } = useSoundFx();
+  const [playName] = useSound(props.hero.nameSound);
 
   return (
     <div className="flex flex-col items-center my-4 h-full">
@@ -109,7 +112,7 @@ function HeroSelector(props: PropsImgSelector) {
         </div>
 
         <div className="flex flex-col text-center gap-y-2 w-full">
-          <div className="bg-red-500 text-white font-bold uppercase mt-6 text-xl -mx-2">
+          <div onClick={playName} className="bg-red-500 text-white font-bold uppercase mt-6 text-xl -mx-2">
             {props.hero.name}
           </div>
           <Stat>
