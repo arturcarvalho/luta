@@ -3,6 +3,7 @@ import IconFight from "./IconFight";
 import IconAge from "./IconAge";
 import IconBrain from "./IconBrain";
 import type { Hero, Power } from "./heroes";
+import { useSoundFx } from "./useSoundFx";
 
 type PropsStat = { children: React.ReactNode };
 function Stat(p: PropsStat) {
@@ -52,6 +53,7 @@ type PropsImgSelector = {
   previous: () => void;
 };
 function HeroSelector(props: PropsImgSelector) {
+  const { playHearts, playAttack, playIntelligence, playYears } = useSoundFx();
   return (
     <div className="flex flex-col items-center my-4 h-full">
       <div className="flex  flex-col items-center border-2 px-2 py-4 h-full rounded-2xl w-[300px] bg-gray-50 ">
@@ -108,7 +110,7 @@ function HeroSelector(props: PropsImgSelector) {
             {props.hero.name}
           </div>
           <Stat>
-            <div className="text-red-500">
+            <div className="text-red-500" onClick={playHearts}>
               <IconHeart />
             </div>
             <div className="text-red-500 font-bold text-xl">
@@ -117,7 +119,7 @@ function HeroSelector(props: PropsImgSelector) {
           </Stat>
 
           <Stat>
-            <div className="text-blue-500">
+            <div className="text-blue-500" onClick={playAttack}>
               <IconFight cls="w-6 h-6" />
             </div>
             <div className="text-blue-500 font-bold text-xl">
@@ -126,7 +128,7 @@ function HeroSelector(props: PropsImgSelector) {
           </Stat>
 
           <Stat>
-            <div className="text-stone-500">
+            <div className="text-stone-500" onClick={playYears}>
               <IconAge />
             </div>
             <div className="text-stone-500 font-bold text-xl">
@@ -134,7 +136,9 @@ function HeroSelector(props: PropsImgSelector) {
             </div>
           </Stat>
 
-          <PowerStat power={props.hero.intelligence} />
+          <div onClick={playIntelligence}>
+            <PowerStat power={props.hero.intelligence} />
+          </div>
         </div>
       </div>
     </div>

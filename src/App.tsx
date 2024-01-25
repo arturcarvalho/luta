@@ -5,6 +5,7 @@ import { useState } from "react";
 import useSound from "use-sound";
 import { type Hero, heroes } from "./heroes";
 import SelectScreen from "./SelectScreen";
+import { useSoundFx } from "./useSoundFx";
 
 function BackBtn({ handleClick }: { handleClick: () => void }) {
   return (
@@ -29,6 +30,7 @@ function BackBtn({ handleClick }: { handleClick: () => void }) {
 }
 
 function App() {
+  const { playFight } = useSoundFx();
   const heroesList: Hero[] = Object.keys(heroes).map((key) => heroes[key]);
   const [screen, setScreen] = useState<"fight" | "select">("select");
 
@@ -37,6 +39,7 @@ function App() {
   }
 
   function goFight() {
+    playFight();
     setScreen("fight");
   }
 
@@ -102,6 +105,8 @@ function App() {
     const index = leftHero.index;
     const nextIndex = (index + 1) % heroesList.length;
     setLeftHero(nextIndex);
+
+    
   }
 
   function previousLeftHero() {

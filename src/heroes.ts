@@ -1,7 +1,10 @@
 import baum from "./assets/baum.mp3";
 import yah from "./assets/yah.mp3";
 import uyah from "./assets/uyah.mp3";
-import bowser from "./assets/bowser.png";
+import superMarioSnd from "./assets/super_mario.mp3";
+import bowserSnd from "./assets/bowser.mp3";
+import penumbraSnd from "./assets/penumbra.mp3";
+import bowserImg from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 import penumbra from "./assets/penumbra.png";
 
@@ -16,6 +19,7 @@ export type Hero = {
   hearts: number[];
   age: number;
   intelligence: Power;
+  nameSound?: string;
   attackSound: string;
   onLeft: { offset: number; animateOffset: number };
   onRight: { offset: number; animateOffset: number };
@@ -35,18 +39,20 @@ export const heroes: Record<string, Hero> = {
     age: 43,
     intelligence: 3,
     attackSound: yah,
+    nameSound: superMarioSnd,
     onLeft: { offset: -90, animateOffset: 350 },
     onRight: { offset: -50, animateOffset: 350 },
   },
   bowser: {
     name: "Bowser",
-    img: bowser,
+    img: bowserImg,
     imgWidth: 300,
     damage: 10,
     hearts: makeHeartsRange(100),
     age: 34,
     intelligence: 2,
     attackSound: baum,
+    nameSound: bowserSnd,
     onLeft: { offset: -20, animateOffset: -250 },
     onRight: { offset: -50, animateOffset: -250 },
   },
@@ -59,6 +65,7 @@ export const heroes: Record<string, Hero> = {
     age: 230,
     intelligence: 6,
     attackSound: uyah,
+    nameSound: penumbraSnd,
     onLeft: { offset: -10, animateOffset: 350 },
     onRight: { offset: -50, animateOffset: 350 },
   },
