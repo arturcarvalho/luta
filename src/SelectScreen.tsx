@@ -10,39 +10,39 @@ function Stat(p: PropsStat) {
   return <div className="flex items-center gap-x-2">{p.children}</div>;
 }
 
-function PowerStat(props: { power: Power }) {
+function PowerStat(props: { power: Power; play: () => void }) {
   let cls: string = "text-gray-500";
   switch (props.power) {
     case 1:
-      cls = "text-orange-200";
+      cls = "bg-orange-200 text-orange-500";
       break;
     case 2:
-      cls = "text-orange-300";
+      cls = "bg-orange-300 text-white";
       break;
     case 3:
-      cls = "text-orange-400";
+      cls = "bg-orange-400  text-white";
       break;
     case 4:
-      cls = "text-orange-500";
+      cls = "bg-orange-500 text-white";
       break;
     case 5:
-      cls = "text-orange-600";
+      cls = "bg-orange-600 text-white";
       break;
     case 6:
-      cls = "text-orange-700";
+      cls = "bg-orange-700 text-white";
       break;
     case 7:
-      cls = "text-orange-900";
+      cls = "bg-orange-900 text-white";
       break;
   }
 
   return (
-    <Stat>
-      <div className={cls}>
+    <div className={`-mx-2 flex items-center ${cls}`}>
+      <div className="ml-2" onClick={props.play}>
         <IconBrain />
       </div>
-      <div className={`${cls} font-bold text-xl`}>{props.power}</div>
-    </Stat>
+      <div className="ml-2 font-bold text-xl">{props.power}</div>
+    </div>
   );
 }
 
@@ -54,9 +54,11 @@ type PropsImgSelector = {
 };
 function HeroSelector(props: PropsImgSelector) {
   const { playHearts, playAttack, playIntelligence, playYears } = useSoundFx();
+
   return (
     <div className="flex flex-col items-center my-4 h-full">
-      <div className="flex  flex-col items-center border-2 px-2 py-4 h-full rounded-2xl w-[300px] bg-gray-50 ">
+      <div className="flex  flex-col items-center border-2 px-2 py-4 h-full rounded-2xl w-[240px] bg-gray-50 ">
+        {/* left and right arrows  */}
         <div className="flex items-end mt-2 ">
           <button
             title="previous"
@@ -105,8 +107,9 @@ function HeroSelector(props: PropsImgSelector) {
             </svg>
           </button>
         </div>
-        <div className="flex flex-col text-center gap-y-2">
-          <div className="text-red-500 font-bold uppercase mt-6 text-xl">
+
+        <div className="flex flex-col text-center gap-y-2 w-full">
+          <div className="bg-red-500 text-white font-bold uppercase mt-6 text-xl -mx-2">
             {props.hero.name}
           </div>
           <Stat>
@@ -136,9 +139,7 @@ function HeroSelector(props: PropsImgSelector) {
             </div>
           </Stat>
 
-          <div onClick={playIntelligence}>
-            <PowerStat power={props.hero.intelligence} />
-          </div>
+          <PowerStat play={playIntelligence} power={props.hero.intelligence} />
         </div>
       </div>
     </div>
