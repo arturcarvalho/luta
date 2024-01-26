@@ -54,7 +54,7 @@ function App() {
   });
 
   const [leftHero, setIdxLeftHero] = useState<IndexedHero>(getIdxHero(0));
-  const [rightHero, setIdxRightHero] = useState<IndexedHero>(getIdxHero(0));
+  const [rightHero, setIdxRightHero] = useState<IndexedHero>(getIdxHero(1));
 
   const [playLeft] = useSound(leftHero.attackSound);
   const [playRight] = useSound(rightHero.attackSound);

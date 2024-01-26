@@ -4,9 +4,11 @@ import uyah from "./assets/uyah.mp3";
 import superMarioSnd from "./assets/super_mario.mp3";
 import bowserSnd from "./assets/bowser.mp3";
 import penumbraSnd from "./assets/penumbra.mp3";
+
 import bowserImg from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 import penumbra from "./assets/penumbra.png";
+import master_lloyd from "./assets/master_lloyd.png";
 
 //* Based on marvel's power grid. */
 export type Power = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -30,6 +32,19 @@ function makeHeartsRange(n: number) {
 }
 
 export const heroes: Record<string, Hero> = {
+  master_lloyd: {
+    name: "Master Lloyd",
+    img: master_lloyd,
+    imgWidth: 240,
+    damage: 3,
+    hearts: makeHeartsRange(100),
+    age: 32,
+    intelligence: 2,
+    attackSound: baum,
+    onLeft: { offset: -90, animateOffset: -250 },
+    onRight: { offset: -70, animateOffset: -250 },
+  },
+
   mario: {
     name: "Super Mario",
     img: mario,
