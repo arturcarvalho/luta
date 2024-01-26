@@ -7,9 +7,13 @@ import { useSoundFx } from "./useSoundFx";
 // @ts-expect-error the lib is not typed
 import useSound from "use-sound";
 
-type PropsStat = { children: React.ReactNode };
+type PropsStat = { children: React.ReactNode; play: () => void };
 function Stat(p: PropsStat) {
-  return <div className="flex items-center gap-x-2">{p.children}</div>;
+  return (
+    <div className="flex items-center gap-x-2" onClick={p.play}>
+      {p.children}
+    </div>
+  );
 }
 
 function PowerStat(props: { power: Power; play: () => void }) {
@@ -39,9 +43,9 @@ function PowerStat(props: { power: Power; play: () => void }) {
   }
 
   return (
-    <div className={`-mx-2 flex items-center ${cls}`}>
-      <div className="ml-2" onClick={props.play}>
-        <IconBrain />
+    <div className={`-mx-2 flex items-center ${cls}`} onClick={props.play}>
+      <div className="ml-2">
+        <IconBrain cls="h-8 w-8" />
       </div>
       <div className="ml-2 font-bold text-xl">{props.power}</div>
     </div>
@@ -111,31 +115,34 @@ function HeroSelector(props: PropsImgSelector) {
           </button>
         </div>
 
-        <div className="flex flex-col text-center gap-y-2 w-full">
-          <div onClick={playName} className="bg-red-500 text-white font-bold uppercase mt-6 text-xl -mx-2">
+        <div className="flex flex-col text-center gap-y-2 w-full select-none">
+          <div
+            onClick={playName}
+            className="bg-red-500 text-white font-bold uppercase mt-6 text-xl -mx-2"
+          >
             {props.hero.name}
           </div>
-          <Stat>
-            <div className="text-red-500" onClick={playHearts}>
-              <IconHeart />
+          <Stat play={playHearts}>
+            <div className="text-red-500">
+              <IconHeart cls="w-8 h-8" />
             </div>
             <div className="text-red-500 font-bold text-xl">
               {props.hero.hearts.length}
             </div>
           </Stat>
 
-          <Stat>
-            <div className="text-blue-500" onClick={playAttack}>
-              <IconFight cls="w-6 h-6" />
+          <Stat play={playAttack}>
+            <div className="text-blue-500">
+              <IconFight cls="w-8 h-8" />
             </div>
             <div className="text-blue-500 font-bold text-xl">
               {props.hero.damage}
             </div>
           </Stat>
 
-          <Stat>
-            <div className="text-stone-500" onClick={playYears}>
-              <IconAge />
+          <Stat play={playYears}>
+            <div className="text-stone-500">
+              <IconAge cls="w-8 h-8" />
             </div>
             <div className="text-stone-500 font-bold text-xl">
               {props.hero.age}
@@ -152,7 +159,7 @@ function HeroSelector(props: PropsImgSelector) {
 function FightBtn(props: { handleClick: () => void }) {
   return (
     <button
-      className="rounded-full p-1 bg-red-500 text-white h-fit"
+      className="rounded-full p-1 bg-red-500 text-white h-fit mt-8"
       onClick={props.handleClick}
     >
       <IconFight />
