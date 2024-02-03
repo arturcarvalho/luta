@@ -32,18 +32,6 @@ function makeHeartsRange(n: number) {
 }
 
 export const heroes: Record<string, Hero> = {
-  master_lloyd: {
-    name: "Master Lloyd",
-    img: master_lloyd,
-    imgWidth: 240,
-    damage: 3,
-    hearts: makeHeartsRange(100),
-    age: 32,
-    intelligence: 2,
-    attackSound: baum,
-    onLeft: { offset: -90, animateOffset: -250 },
-    onRight: { offset: -70, animateOffset: -250 },
-  },
 
   mario: {
     name: "Super Mario",
@@ -84,4 +72,17 @@ export const heroes: Record<string, Hero> = {
     onLeft: { offset: -10, animateOffset: 350 },
     onRight: { offset: -50, animateOffset: 350 },
   },
+  master_lloyd: {
+    name: "Master Lloyd",
+    img: master_lloyd,
+    imgWidth: 240,
+    damage: 3,
+    hearts: makeHeartsRange(100),
+    age: 32,
+    intelligence: 2,
+    attackSound: baum,
+    onLeft: { offset: -90, animateOffset: -250 },
+    onRight: { offset: -70, animateOffset: -250 },
+  },
+
 };
