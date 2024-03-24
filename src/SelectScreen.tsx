@@ -87,12 +87,14 @@ function HeroSelector(props: PropsImgSelector) {
               />
             </svg>
           </button>
-          <img
-            style={{ transform: props.flip ? "scaleX(-1)" : "scaleX(1)" }}
-            className="rounded-full bg-red-500 h-40 w-40 border-4 border-white "
-            src={props.hero.img}
-            alt={props.hero.name}
-          />
+          <div className="rounded-full bg-red-500 h-40 w-40 border-4 border-white overflow-hidden">
+            <img
+              style={{ transform: props.flip ? "scaleX(-1)" : "scaleX(1)" }}
+              className="object-scale-down "
+              src={props.hero.img}
+              alt={props.hero.name}
+            />
+          </div>
           <button
             title="next"
             className="-ml-8 shadow z-10 text-gray-500 bg-white rounded-full"
@@ -123,28 +125,28 @@ function HeroSelector(props: PropsImgSelector) {
             {props.hero.name}
           </div>
           <Stat play={playHearts}>
-            <div className="text-red-500">
+            <div className="py-1 text-red-500">
               <IconHeart cls="w-8 h-8" />
             </div>
-            <div className="text-red-500 font-bold text-xl">
+            <div className="py-1 text-red-500 font-bold text-xl">
               {props.hero.hearts.length}
             </div>
           </Stat>
 
           <Stat play={playAttack}>
-            <div className="text-blue-500">
+            <div className="py-1 text-blue-500">
               <IconFight cls="w-8 h-8" />
             </div>
-            <div className="text-blue-500 font-bold text-xl">
+            <div className="py-1 text-blue-500 font-bold text-xl">
               {props.hero.damage}
             </div>
           </Stat>
 
           <Stat play={playYears}>
-            <div className="text-stone-500">
+            <div className="py-1 text-stone-500">
               <IconAge cls="w-8 h-8" />
             </div>
-            <div className="text-stone-500 font-bold text-xl">
+            <div className="py-1 text-stone-500 font-bold text-xl">
               {props.hero.age}
             </div>
           </Stat>
@@ -159,7 +161,7 @@ function HeroSelector(props: PropsImgSelector) {
 function FightBtn(props: { handleClick: () => void }) {
   return (
     <button
-      className="rounded-full p-1 bg-red-500 text-white h-fit mt-8"
+      className="rounded-full p-1 bg-red-500 text-white h-fit mt-5"
       onClick={props.handleClick}
     >
       <IconFight />

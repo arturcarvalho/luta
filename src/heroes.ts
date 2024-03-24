@@ -4,7 +4,9 @@ import uyah from "./assets/uyah.mp3";
 import superMarioSnd from "./assets/super_mario.mp3";
 import bowserSnd from "./assets/bowser.mp3";
 import penumbraSnd from "./assets/penumbra.mp3";
+import hugoSnd from "./assets/hugo.mp3";
 
+import hugoImg from "./assets/hugo.png";
 import bowserImg from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 import penumbra from "./assets/penumbra.png";
@@ -32,7 +34,19 @@ function makeHeartsRange(n: number) {
 }
 
 export const heroes: Record<string, Hero> = {
-
+  hugo: {
+    name: "Hugo",
+    img: hugoImg,
+    imgWidth: 160,
+    damage: 50,
+    hearts: makeHeartsRange(100),
+    age: 4,
+    intelligence: 7,
+    attackSound: yah,
+    nameSound: hugoSnd,
+    onLeft: { offset: -90, animateOffset: 350 },
+    onRight: { offset: -20, animateOffset: 350 },
+  },
   mario: {
     name: "Super Mario",
     img: mario,
@@ -45,19 +59,6 @@ export const heroes: Record<string, Hero> = {
     nameSound: superMarioSnd,
     onLeft: { offset: -90, animateOffset: 350 },
     onRight: { offset: -50, animateOffset: 350 },
-  },
-  bowser: {
-    name: "Bowser",
-    img: bowserImg,
-    imgWidth: 300,
-    damage: 10,
-    hearts: makeHeartsRange(100),
-    age: 34,
-    intelligence: 2,
-    attackSound: baum,
-    nameSound: bowserSnd,
-    onLeft: { offset: -20, animateOffset: -250 },
-    onRight: { offset: -50, animateOffset: -250 },
   },
   penumbra: {
     name: "Penumbra",
@@ -72,6 +73,21 @@ export const heroes: Record<string, Hero> = {
     onLeft: { offset: -10, animateOffset: 350 },
     onRight: { offset: -50, animateOffset: 350 },
   },
+
+  bowser: {
+    name: "Bowser",
+    img: bowserImg,
+    imgWidth: 300,
+    damage: 10,
+    hearts: makeHeartsRange(100),
+    age: 34,
+    intelligence: 2,
+    attackSound: baum,
+    nameSound: bowserSnd,
+    onLeft: { offset: -20, animateOffset: -250 },
+    onRight: { offset: -50, animateOffset: -250 },
+  },
+
   master_lloyd: {
     name: "Master Lloyd",
     img: master_lloyd,
@@ -84,5 +100,4 @@ export const heroes: Record<string, Hero> = {
     onLeft: { offset: -90, animateOffset: -250 },
     onRight: { offset: -70, animateOffset: -250 },
   },
-
 };
