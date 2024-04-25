@@ -64,6 +64,7 @@ function HeroSelector(props: PropsImgSelector) {
 
   return (
     <div className="flex flex-col items-center my-4 h-full">
+      <div>hello BIOCORE</div>
       <div className="flex  flex-col items-center border-2 px-2 py-4 h-full rounded-2xl w-[240px] bg-gray-50 ">
         {/* left and right arrows  */}
         <div className="flex items-end mt-2 ">
