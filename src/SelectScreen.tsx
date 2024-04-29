@@ -7,7 +7,7 @@ import { useSoundFx } from "./useSoundFx";
 // @ts-expect-error the lib is not typed
 import useSound from "use-sound";
 
-type PropsStat = { children: React.ReactNode; play: () => void };
+type PropsStat = { children: React.ReactNode; play: () => void }
 function Stat(p: PropsStat) {
   return (
     <div className="flex items-center gap-x-2" onClick={p.play}>
@@ -66,6 +66,7 @@ function HeroSelector(props: PropsImgSelector) {
     <div className="flex flex-col items-center my-4 h-full">
       <div className="flex  flex-col items-center border-2 px-2 py-4 h-full rounded-2xl w-[240px] bg-gray-50 ">
         {/* left and right arrows  */}
+        hey BIOCORE
         <div className="flex items-end mt-2 ">
           <button
             title="previous"
