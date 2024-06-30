@@ -38,7 +38,7 @@ export const heroes: Record<string, Hero> = {
     name: "Hugo",
     img: hugoImg,
     imgWidth: 160,
-    damage: 50,
+    damage: 1200,
     hearts: makeHeartsRange(100),
     age: 4,
     intelligence: 7,
