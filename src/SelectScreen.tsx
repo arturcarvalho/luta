@@ -63,9 +63,10 @@ function HeroSelector(props: PropsImgSelector) {
   const [playName] = useSound(props.hero.nameSound);
 
   return (
-    <div className="flex flex-col items-center my-4 h-full">
+    <div className="flex flex-col items-center my-4 h-full">      
       <div className="flex  flex-col items-center border-2 px-2 py-4 h-full rounded-2xl w-[240px] bg-gray-50 ">
         {/* left and right arrows  */}
+        hello BIOCORE
         <div className="flex items-end mt-2 ">
           <button
             title="previous"
