@@ -6,7 +6,7 @@ import infiniteHeart from "./assets/infinite_heart.png";
 function HeartGrid({ hearts }: { hearts: number[] | "infinity" }) {
   if (hearts === "infinity")
     return (
-      <div className="w-56 justify-center">
+      <div className="w-5 mt-24 justify-center">
         <img src={infiniteHeart} alt="infinite hearts"  />
       </div>
     );
