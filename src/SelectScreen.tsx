@@ -129,7 +129,9 @@ function HeroSelector(props: PropsImgSelector) {
               <IconHeart cls="w-8 h-8" />
             </div>
             <div className="py-1 text-red-500 font-bold text-xl">
-              {props.hero.hearts.length}
+              {props.hero.hearts === "infinity"
+                ? "∞"
+                : props.hero.hearts.length}
             </div>
           </Stat>
 
