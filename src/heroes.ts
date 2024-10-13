@@ -5,12 +5,15 @@ import superMarioSnd from "./assets/super_mario.mp3";
 import bowserSnd from "./assets/bowser.mp3";
 import penumbraSnd from "./assets/penumbra.mp3";
 import hugoSnd from "./assets/hugo.mp3";
+import ramarainteSnd from "./assets/ramarainte.mp3"
+import ramarainteAttack from "./assets/ramarainte_attack.mp3"
 
 import hugoImg from "./assets/hugo.png";
 import bowserImg from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 import penumbra from "./assets/penumbra.png";
 import master_lloyd from "./assets/master_lloyd.png";
+import ramarainte from "./assets/ramarainte.png"
 
 //* Based on marvel's power grid. */
 export type Power = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -20,7 +23,7 @@ export type Hero = {
   img: string;
   imgWidth: number;
   damage: number;
-  hearts: number[];
+  hearts: number[] | "infinity";
   age: number;
   intelligence: Power;
   nameSound?: string;
@@ -40,12 +43,25 @@ export const heroes: Record<string, Hero> = {
     imgWidth: 160,
     damage: 1200,
     hearts: makeHeartsRange(100),
-    age: 4,
+    age: 5,
     intelligence: 7,
     attackSound: yah,
     nameSound: hugoSnd,
     onLeft: { offset: -90, animateOffset: 350 },
     onRight: { offset: -20, animateOffset: 350 },
+  },
+  ramarainte: {
+    name: "Ramarainte¡¡¡",
+    img: ramarainte,    
+    imgWidth: 200,
+    damage: 1501,
+    hearts: "infinity",
+    intelligence: 7,
+    nameSound: ramarainteSnd,
+    attackSound: ramarainteAttack,
+    age: 300,
+    onLeft: { offset: -30, animateOffset: 350 },
+    onRight: { offset: 30, animateOffset: 350 }
   },
   mario: {
     name: "Super Mario",

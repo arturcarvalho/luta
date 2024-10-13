@@ -83,30 +83,41 @@ function App() {
     animateRight(scopeRight.current, { x: [-100, 0] }, { duration: 0.5 });
   }
 
+  function reduceHearts(hearts: number[] | "infinity", damage: number) {
+    if (hearts === "infinity") return "infinity";
+
+    return hearts.slice(damage);
+  }
+
   function leftAttack() {
     animateLeftAttack();
 
-    setIdxRightHero((prev) => ({
-      ...prev,
-      hearts: prev.hearts.slice(leftHero.damage),
-    }));
+    setIdxRightHero((prev) => {
+      if (prev.hearts === "infinity") return prev;
+
+      return {
+        ...prev,
+        hearts: reduceHearts(prev.hearts, leftHero.damage),
+      };
+    });
   }
 
   function rightAttack() {
     animateRightAttack();
 
-    setIdxLeftHero((prev) => ({
-      ...prev,
-      hearts: prev.hearts.slice(rightHero.damage),
-    }));
+    setIdxLeftHero((prev) => {
+      if (prev.hearts === "infinity") return prev;
+      return {
+        ...prev,
+        hearts: prev.hearts.slice(rightHero.damage),
+      };
+    });
   }
 
   function nextLeftHero() {
     const index = leftHero.index;
     const nextIndex = (index + 1) % heroesList.length;
     setLeftHero(nextIndex);
-
-    
   }
 
   function previousLeftHero() {

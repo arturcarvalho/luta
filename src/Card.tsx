@@ -42,6 +42,8 @@ export default function Card(props: PropsCard) {
     props.attack();
   }
 
+  const hearts = props.heartsCnt === Infinity ? "∞" : props.heartsCnt;
+
   return (
     <div
       onClick={attack}
@@ -56,7 +58,7 @@ export default function Card(props: PropsCard) {
 
       {/* hearts marker */}
       <div className="text-white bg-red-500 text-xl -bottom-6 -right-6 rounded-full h-12 w-12 flex items-center justify-center font-bold absolute">
-        {props.heartsCnt}
+        {hearts}
       </div>
       {/* dmg */}
       <div className="text-white bg-blue-500 text-xl -bottom-6 -left-6 rounded-full h-12 w-12 flex items-center justify-center font-bold absolute">

@@ -1,8 +1,16 @@
 import { motion, AnimationScope, AnimatePresence } from "framer-motion";
 import { type Hero } from "./heroes";
 import Card from "./Card";
+import infiniteHeart from "./assets/infinite_heart.png";
 
-function HeartGrid({ hearts }: { hearts: number[] }) {
+function HeartGrid({ hearts }: { hearts: number[] | "infinity" }) {
+  if (hearts === "infinity")
+    return (
+      <div className="w-56 justify-center">
+        <img src={infiniteHeart} alt="infinite hearts"  />
+      </div>
+    );
+
   return (
     <div className="flex flex-wrap gap-1 mt-2 w-72 justify-center">
       <AnimatePresence>
@@ -67,6 +75,15 @@ type Props = {
 };
 
 function FightScreen(props: Props) {
+  const leftHeartsCnt =
+    props.leftHero.hearts === "infinity"
+      ? Infinity
+      : props.leftHero.hearts.length;
+  const rightHeartsCnt =
+    props.rightHero.hearts === "infinity"
+      ? Infinity
+      : props.rightHero.hearts.length;
+
   return (
     <div className="text-white flex justify-center">
       <div className="flex flex-row">
@@ -80,8 +97,9 @@ function FightScreen(props: Props) {
             animateOffset={props.leftHero.onLeft.animateOffset}
             imgWidth={props.leftHero.imgWidth}
             damage={props.leftHero.damage}
-            heartsCnt={props.leftHero.hearts.length}
+            heartsCnt={leftHeartsCnt}
           />
+
           <HeartGrid hearts={props.leftHero.hearts} />
         </div>
 
@@ -100,7 +118,7 @@ function FightScreen(props: Props) {
             animateOffset={props.rightHero.onRight.animateOffset}
             imgWidth={props.rightHero.imgWidth}
             damage={props.rightHero.damage}
-            heartsCnt={props.rightHero.hearts.length}
+            heartsCnt={rightHeartsCnt}
           />
           <HeartGrid hearts={props.rightHero.hearts} />
         </div>
