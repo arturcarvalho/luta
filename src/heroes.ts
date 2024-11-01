@@ -15,6 +15,7 @@ import penumbra from "./assets/penumbra.png";
 import master_lloyd from "./assets/master_lloyd.png";
 import ramarainte from "./assets/ramarainte.png";
 import rasquadrileao from "./assets/rasquadrileao.png";
+import leao_rei from "./assets/leao_rei.png";
 
 //* Based on marvel's power grid. */
 export type Power = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -50,6 +51,19 @@ export const heroes: Record<string, Hero> = {
     nameSound: hugoSnd,
     onLeft: { offset: -90, animateOffset: 350 },
     onRight: { offset: -20, animateOffset: 350 },
+  },
+  leaoRei: {
+    name: "Leão: Rei de Sempre",
+    img: leao_rei,
+    imgWidth: 300,
+    damage: 1300,
+    hearts: makeHeartsRange(300),
+    intelligence: 2,
+    nameSound: yah,
+    attackSound: yah,
+    age: 1000,
+    onLeft: { offset: -10, animateOffset: 350 },
+    onRight: { offset: 10, animateOffset: 350 },
   },
   rasquadrileao: {
     name: "Rasquadrileão",
