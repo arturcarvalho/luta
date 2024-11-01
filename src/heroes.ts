@@ -5,15 +5,16 @@ import superMarioSnd from "./assets/super_mario.mp3";
 import bowserSnd from "./assets/bowser.mp3";
 import penumbraSnd from "./assets/penumbra.mp3";
 import hugoSnd from "./assets/hugo.mp3";
-import ramarainteSnd from "./assets/ramarainte.mp3"
-import ramarainteAttack from "./assets/ramarainte_attack.mp3"
+import ramarainteSnd from "./assets/ramarainte.mp3";
+import ramarainteAttack from "./assets/ramarainte_attack.mp3";
 
 import hugoImg from "./assets/hugo.png";
 import bowserImg from "./assets/bowser.png";
 import mario from "./assets/mario.png";
 import penumbra from "./assets/penumbra.png";
 import master_lloyd from "./assets/master_lloyd.png";
-import ramarainte from "./assets/ramarainte.png"
+import ramarainte from "./assets/ramarainte.png";
+import rasquadrileao from "./assets/rasquadrileao.png";
 
 //* Based on marvel's power grid. */
 export type Power = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -40,8 +41,8 @@ export const heroes: Record<string, Hero> = {
   hugo: {
     name: "Hugo",
     img: hugoImg,
-    imgWidth: 160,
-    damage: 1200,
+    imgWidth: 130,
+    damage: 200,
     hearts: makeHeartsRange(100),
     age: 5,
     intelligence: 7,
@@ -50,9 +51,22 @@ export const heroes: Record<string, Hero> = {
     onLeft: { offset: -90, animateOffset: 350 },
     onRight: { offset: -20, animateOffset: 350 },
   },
+  rasquadrileao: {
+    name: "Rasquadrileão",
+    img: rasquadrileao,
+    imgWidth: 200,
+    damage: 1000,
+    hearts: makeHeartsRange(1200),
+    intelligence: 2,
+    nameSound: yah,
+    attackSound: yah,
+    age: 3,
+    onLeft: { offset: -30, animateOffset: 400 },
+    onRight: { offset: 30, animateOffset: 350 },
+  },
   ramarainte: {
     name: "Ramarainte¡¡¡",
-    img: ramarainte,    
+    img: ramarainte,
     imgWidth: 200,
     damage: 1501,
     hearts: "infinity",
@@ -61,7 +75,7 @@ export const heroes: Record<string, Hero> = {
     attackSound: ramarainteAttack,
     age: 300,
     onLeft: { offset: -30, animateOffset: 350 },
-    onRight: { offset: 30, animateOffset: 350 }
+    onRight: { offset: 30, animateOffset: 350 },
   },
   mario: {
     name: "Super Mario",
